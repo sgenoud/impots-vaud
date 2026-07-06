@@ -1,0 +1,10 @@
+[project]
+name = "impots-vaud"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "pandas>=2.2",
+    "openpyxl>=3.1",
+    "xlrd>=2.0",
+    "matplotlib>=3.9",
+]
