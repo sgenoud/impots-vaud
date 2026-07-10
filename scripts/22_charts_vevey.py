@@ -4,17 +4,17 @@ Mirrors scripts/21_charts.py but for Vevey alone (a single series, since
 there's no canton/communes split at commune level): taxes_vevey_chf per
 population_vevey, restricted to 1990-2024 where taxes_vevey_chf exists.
 
-1. taxes_vevey_per_capita_chf.png -- CHF per inhabitant, raw francs.
-2. taxes_vevey_per_capita_pct_median_salary.png -- the same series as a
-   percentage of one median annual Vaud salary
-   (salaire_median_vaud_approx_chf x 12). Uses the *approximated*
-   continuous salary series (script 10) -- only 2012/14/16/18/20/22/24
-   rest on real salary data, the rest follows the Swiss wage index's
-   shape. See README. Note this compares a commune-level tax figure to
-   a canton-level salary figure, since no Vevey-specific salary data
-   exists.
+taxes_vevey_per_capita_pct_median_salary.png expresses that series as a
+percentage of one median annual Vaud salary
+(salaire_median_vaud_approx_chf x 12). Uses the *approximated*
+continuous salary series (script 10) -- only 2012/14/16/18/20/22/24
+rest on real salary data, the rest follows the Swiss wage index's
+shape. See README. Note this compares a commune-level tax figure to
+a canton-level salary figure, since no Vevey-specific salary data
+exists.
 
-The derived figures are also written out as
+The derived figures (including the plain CHF-per-inhabitant one, which
+no longer has its own chart) are still written out as
 charts/taxes_vevey_per_capita.csv for inspection.
 """
 import pandas as pd
@@ -44,22 +44,7 @@ df[derived_cols].to_csv("charts/taxes_vevey_per_capita.csv", index=False)
 
 x = df["year"].tolist()
 
-# --- Chart 1: CHF per inhabitant ---
-fig, ax = new_figure()
-plot_series(ax, x, [
-    ("Vevey", GREEN, df["taxes_vevey_per_capita_chf"].tolist()),
-])
-style_axes(ax, lambda v, _: f"{v:,.0f}".replace(",", "’"))
-add_titles(
-    fig, ax,
-    "Recettes fiscales communales de Vevey par habitant, 1990-2024",
-    "Impôt communal de Vevey, en CHF par habitant",
-    SOURCE_NOTE,
-)
-ax.set_ylabel("CHF par habitant", fontsize=9, color="#898781")
-save(fig, "charts/taxes_vevey_per_capita_chf.png")
-
-# --- Chart 2: as a % of the median annual Vaud salary ---
+# --- Chart 1: as a % of the median annual Vaud salary ---
 fig, ax = new_figure()
 plot_series(ax, x, [
     ("Vevey", GREEN, df["taxes_vevey_per_capita_pct_median_salary"].tolist()),
@@ -79,6 +64,5 @@ add_titles(
 ax.set_ylabel("% d'un salaire annuel médian", fontsize=9, color="#898781")
 save(fig, "charts/taxes_vevey_per_capita_pct_median_salary.png")
 
-print("wrote charts/taxes_vevey_per_capita_chf.png")
 print("wrote charts/taxes_vevey_per_capita_pct_median_salary.png")
 print("wrote charts/taxes_vevey_per_capita.csv")
