@@ -48,13 +48,21 @@ per invocation:
   `scripts/31_subsides_maladie_chart.py`.
 - `just charts-subsides-maladie-total` — (depends on `master`) runs
   `scripts/32_subsides_maladie_total.py`.
+- `just charts-taxes-canton-par-type` — (depends on `master`) runs
+  `scripts/33_taxes_canton_par_type.py`.
+- `just charts-taxes-canton-personnes` — (depends on `master`) runs
+  `scripts/34_taxes_canton_personnes_median_salary.py`.
+- `just charts-taxes-canton-personnes-categories` — (depends on `master`) runs
+  `scripts/35_taxes_canton_personnes_physiques_categories_median_salary.py`.
 - `just all` — (depends on `charts`, `charts-vevey`, `charts-charges`,
   `charts-charges-main`, `charts-charges-autres`,
   `charts-charges-transfert-trend`, `charts-charges-totales`,
   `charts-charges-transfert-fonctionnel`,
   `charts-charges-transfert-fonctionnel-top4`,
-  `charts-charges-transfert-prevoyance`, `charts-subsides-maladie` and
-  `charts-subsides-maladie-total`) builds everything.
+  `charts-charges-transfert-prevoyance`, `charts-subsides-maladie`,
+  `charts-subsides-maladie-total`, `charts-taxes-canton-par-type`,
+  `charts-taxes-canton-personnes` and `charts-taxes-canton-personnes-categories`)
+  builds everything.
 - `just run <script>` — run any single script directly, e.g.
   `just run 02_taxes_canton.py`.
 - `just clean` — remove every generated file (`clean/`, `output/`,
@@ -65,7 +73,7 @@ per invocation:
 | Column | Source file | Sheet | Years | Unit |
 |---|---|---|---|---|
 | `population_canton` | `Chiffres-cles_Population_depuis-1981.xls` | Feuil1 | 1981-2025 | headcount |
-| `taxes_canton_chf` | `T18.02.04.xlsx` | `1990-2013` + `2013 et suite` | 1990-2024 | CHF (raw, converted from millions) |
+| `taxes_canton_<type>_chf`, `taxes_canton_groupe_<groupe>_chf`, `taxes_canton_chf` | `T18.02.04.xlsx` | `1990-2013` + `2013 et suite` | 1990-2024 | CHF (raw, converted from millions); every published tax-type line plus six analytical chart groups and Total |
 | `taxes_communes_chf` | `a) Ensemble des communes.xlsx` | — | 1990-2024 | CHF (all VD communes combined) |
 | `taxes_vevey_chf` | `b) Par communes.xlsx` | — | 1990-2024 | CHF (Vevey only, pre-filtered in source) |
 | `pib_nominal_chf` | `PIB-VD_nominal_depuis_1997.xlsx` | — | 1997-2025 | CHF (raw, converted from millions) |
@@ -371,6 +379,37 @@ steepest rise is and the number worth quantifying — not the full
 39-year span. As of the last run: **+0.0466 percentage points/year**
 of one median salary (95% CI [0.0314, 0.0617], R² = 0.84, p ≈
 6.6e-05) — a clear, statistically significant acceleration.
+
+`scripts/33_taxes_canton_par_type.py` builds
+`taxes_canton_par_type.png` (+ `taxes_canton_par_type.csv`): a 100%-stacked
+area chart of the 1990-2024 cantonal tax total. Each year is expressed as a
+share of that year's Total, so the chart shows changes in composition rather
+than nominal revenue growth. The extraction now retains every line of the
+source table in `clean/taxes_canton.csv`; the chart uses six readable
+analytical groups which reconcile exactly to its `Total`: impôts sur le revenu
+des personnes physiques (including source and, before 2013, the special
+foreign-resident tax), impôts sur la fortune des personnes physiques, autres
+impôts des personnes physiques, impôts des personnes morales, **impôts sur
+les transactions**, and **impôts sur la mobilité**. The transaction group
+contains mutation/stamp duties and absorbs the small source reconciliation
+needed for the old recovered-tax memo line. The source changes its detailed
+presentation in 2013; the chart marks that boundary and uses the newer
+sheet's 2013 value.
+
+`scripts/34_taxes_canton_personnes_median_salary.py` builds
+`taxes_canton_personnes_physiques_morales_median_salary.png` (+ its `.csv`):
+two lines showing the cantonal tax attributed to physical persons and to moral
+persons, per inhabitant and in units of the estimated annual median Vaud
+salary. The physical-person line combines the income, wealth and other
+physical-person groups. Transaction and mobility taxes are excluded because
+the aggregate source cannot assign them reliably to one taxpayer type.
+
+`scripts/35_taxes_canton_personnes_physiques_categories_median_salary.py`
+builds `taxes_canton_personnes_physiques_categories_median_salary.png` (+ its
+`.csv`): the income, wealth, and other-tax components of the physical-person
+line in script 34, each per inhabitant and in the same estimated annual median
+salary units. A true annual mean-salary series is not available; this chart
+uses the median-salary proxy consistently with the rest of the pipeline.
 
 ## Layout
 

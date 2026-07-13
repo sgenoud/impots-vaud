@@ -58,8 +58,20 @@ charts-subsides-maladie: master
 charts-subsides-maladie-total: master
     uv run python scripts/32_subsides_maladie_total.py
 
+# Full cantonal tax table, stacked by taxpayer/type group (1990-2024)
+charts-taxes-canton-par-type: master
+    uv run python scripts/33_taxes_canton_par_type.py
+
+# Natural- vs legal-person cantonal taxes, in median-salary units (1990-2024)
+charts-taxes-canton-personnes: master
+    uv run python scripts/34_taxes_canton_personnes_median_salary.py
+
+# Natural-person tax categories, in median-salary units (1990-2024)
+charts-taxes-canton-personnes-categories: master
+    uv run python scripts/35_taxes_canton_personnes_physiques_categories_median_salary.py
+
 # Build everything: extraction -> master table -> all charts
-all: charts charts-vevey charts-charges charts-charges-main charts-charges-autres charts-charges-transfert-trend charts-charges-totales charts-charges-transfert-fonctionnel charts-charges-transfert-fonctionnel-top4 charts-charges-transfert-prevoyance charts-subsides-maladie charts-subsides-maladie-total
+all: charts charts-vevey charts-charges charts-charges-main charts-charges-autres charts-charges-transfert-trend charts-charges-totales charts-charges-transfert-fonctionnel charts-charges-transfert-fonctionnel-top4 charts-charges-transfert-prevoyance charts-subsides-maladie charts-subsides-maladie-total charts-taxes-canton-par-type charts-taxes-canton-personnes charts-taxes-canton-personnes-categories
 
 # Run a single script by name, e.g. `just run 02_taxes_canton.py`
 run script:
