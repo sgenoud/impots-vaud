@@ -70,8 +70,12 @@ charts-taxes-canton-personnes: master
 charts-taxes-canton-personnes-categories: master
     uv run python scripts/35_taxes_canton_personnes_physiques_categories_median_salary.py
 
+# Nominal/real GDP per inhabitant and annual median salary (1997-2025)
+charts-pib-salaire-median: master
+    uv run python scripts/36_pib_nominal_salaire_median.py
+
 # Build everything: extraction -> master table -> all charts
-all: charts charts-vevey charts-charges charts-charges-main charts-charges-autres charts-charges-transfert-trend charts-charges-totales charts-charges-transfert-fonctionnel charts-charges-transfert-fonctionnel-top4 charts-charges-transfert-prevoyance charts-subsides-maladie charts-subsides-maladie-total charts-taxes-canton-par-type charts-taxes-canton-personnes charts-taxes-canton-personnes-categories
+all: charts charts-vevey charts-charges charts-charges-main charts-charges-autres charts-charges-transfert-trend charts-charges-totales charts-charges-transfert-fonctionnel charts-charges-transfert-fonctionnel-top4 charts-charges-transfert-prevoyance charts-subsides-maladie charts-subsides-maladie-total charts-taxes-canton-par-type charts-taxes-canton-personnes charts-taxes-canton-personnes-categories charts-pib-salaire-median
 
 # Run a single script by name, e.g. `just run 02_taxes_canton.py`
 run script:

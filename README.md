@@ -54,6 +54,8 @@ per invocation:
   `scripts/34_taxes_canton_personnes_median_salary.py`.
 - `just charts-taxes-canton-personnes-categories` — (depends on `master`) runs
   `scripts/35_taxes_canton_personnes_physiques_categories_median_salary.py`.
+- `just charts-pib-salaire-median` — (depends on `master`) runs
+  `scripts/36_pib_nominal_salaire_median.py`.
 - `just all` — (depends on `charts`, `charts-vevey`, `charts-charges`,
   `charts-charges-main`, `charts-charges-autres`,
   `charts-charges-transfert-trend`, `charts-charges-totales`,
@@ -61,8 +63,8 @@ per invocation:
   `charts-charges-transfert-fonctionnel-top4`,
   `charts-charges-transfert-prevoyance`, `charts-subsides-maladie`,
   `charts-subsides-maladie-total`, `charts-taxes-canton-par-type`,
-  `charts-taxes-canton-personnes` and `charts-taxes-canton-personnes-categories`)
-  builds everything.
+  `charts-taxes-canton-personnes`, `charts-taxes-canton-personnes-categories`
+  and `charts-pib-salaire-median`) builds everything.
 - `just run <script>` — run any single script directly, e.g.
   `just run 02_taxes_canton.py`.
 - `just clean` — remove every generated file (`clean/`, `output/`,
@@ -410,6 +412,13 @@ builds `taxes_canton_personnes_physiques_categories_median_salary.png` (+ its
 line in script 34, each per inhabitant and in the same estimated annual median
 salary units. A true annual mean-salary series is not available; this chart
 uses the median-salary proxy consistently with the rest of the pipeline.
+
+`scripts/36_pib_nominal_salaire_median.py` builds
+`pib_par_habitant_salaire_median.png` (+ its `.csv`): nominal and real Vaud
+GDP per inhabitant alongside the annualized estimated median Vaud salary,
+1997-2025. All three are annual CHF-per-person values, so they use one common
+scale. The real-GDP source is expressed in chain prices with 2025 as the
+reference year; nominal GDP and salary are current CHF.
 
 ## Layout
 
